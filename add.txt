@@ -1,0 +1,19 @@
+.data
+var db 0
+
+.code
+main proc
+input var
+mov ax,var
+print ax
+
+mov ax,ff
+add ax,fd
+jnc skip
+inc ah
+skip
+
+print ah
+print al
+main endp
+end

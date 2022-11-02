@@ -1,0 +1,60 @@
+
+.data
+len db 0
+s db 0
+var db 0
+arrn db dup 60
+flag db 0
+
+.code
+
+main proc
+
+input len
+mov cl,len
+mov dl,0
+
+loop1
+input var
+mov al,var
+mov arrn[dl],al
+inc dl
+dec cl
+jnz loop1
+
+
+input s
+mov al,0
+mov ah,len
+dec ah
+mov bh,0
+back
+cmp ah,al
+jc not_found
+
+mov bl,al
+add bl,ah
+rar bl,1
+mov cl,arrn[bx]
+
+cmp cl,s
+jz founder
+jc skip
+mov ah,bl
+dec ah
+jmp back
+
+skip
+mov al,bl
+inc al
+jmp back
+
+founder
+inc flag
+
+not_found
+exit print flag
+main endp
+end
+
+

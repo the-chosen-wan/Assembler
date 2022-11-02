@@ -1,0 +1,57 @@
+.data
+
+arr db dup 50
+len db 0
+var db 0
+
+.code
+main proc
+input len
+mov cl,len
+mov bl,0
+
+back input var
+mov arr[bl],var
+inc bl
+dec cl
+jnz back
+
+
+mov bl,0
+mov cl,len
+mov al,0
+
+outer1 mov bl,al
+inner1 inc bl
+dec bl
+jz break
+
+mov dl,arr[bl]
+dec bl
+mov dh,arr[bl]
+
+cmp dl,dh
+jnc break
+
+mov arr[bl],dl
+inc bl
+mov arr[bl],dh
+
+dec bl
+jmp inner1
+
+break 
+inc al
+dec cl
+jnz outer1
+
+mov cl,len
+mov bl,0
+
+back1 mov al,arr[bl]
+print al
+inc bl
+dec cl
+jnz back1
+main endp
+end

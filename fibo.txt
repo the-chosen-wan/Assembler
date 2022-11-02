@@ -1,0 +1,19 @@
+.data
+
+len db 0
+var1 db 0
+var2 db 1
+
+.code
+
+input len
+mov cl,len
+
+back print var2
+mov bl,var1
+add bl,var2
+mov var1,var2
+mov var2,bl
+dec cl
+jnz back
+end

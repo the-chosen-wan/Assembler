@@ -1,0 +1,28 @@
+.data
+arr db dup 50
+len db 0
+inp db 0
+
+.code
+input len
+mov cl,len
+mov bl,0
+
+back input inp
+mov arr[bl],inp
+inc bl
+dec cl
+jnz back
+
+mov bl,0
+mov cl,len
+mov al,0
+
+back1 cmp al,arr[bl]
+jnc skip1
+mov al,arr[bl]
+skip1 inc bl
+dec cl
+jnz back1
+print al
+end
