@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 #include <typeinfo>
-#define MAXN 100000
+#define MAXN 10000
 using namespace std;
 /*
 al - 0, ah - 1
@@ -90,11 +90,19 @@ class Memory{
 
     int getMemValue(int addr){
         addr-=offset;
+
+        if(addr>=MAXN)
+            return 0;
+
         return mem[addr];
     }
 
     void setMemValue(int addr,int val){
         addr-=offset;
+
+        if(addr>=MAXN)
+            return;
+            
         mem[addr] = val;
         return;
     }

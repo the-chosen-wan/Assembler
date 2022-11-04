@@ -1,19 +1,20 @@
 .data
 var db 0
+var1 db Helloworld$
+var2 db Endter$
 
 .code
-main proc
-input var
-mov ax,var
+method proc
+mov ax,0
+inc ax
 print ax
+ret
+method endp
 
-mov ax,ff
-add ax,fd
-jnc skip
-inc ah
-skip
+main proc
 
-print ah
-print al
+call method
+
 main endp
+
 end

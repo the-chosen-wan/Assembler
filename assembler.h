@@ -53,6 +53,7 @@ class Assembler{
 
             symtab["al"] = 0;symtab["ah"] = 1; symtab["bl"] = 2; symtab["bh"] = 3;symtab["cl"] = 4;symtab["ch"] = 5;
             symtab["dl"] = 6;symtab["dh"] = 7;symtab["si"] = 8;symtab["ax"] = 9;symtab["bx"] = 10;symtab["cx"] = 11;symtab["dx"]=12;
+            symtab["21"]=11234;
 
             optab["add"] = 0;optab["sub"] = 1;optab["inc"]=2;optab["dec"]=3;optab["print"]=4;optab["jnz"]=5;optab["jz"]=6;
             optab["end"]=7;optab["jmp"]=8;optab["mov"]=9;optab["cmp"] = 10;optab["jnc"]=11;optab["jc"]=12;optab["input"]=13;
@@ -314,6 +315,22 @@ class Assembler{
                 sp.pop();
             }
 
+            else if(opcode==optab["int"]){
+                int val = manager.getValue(1);
+
+                if(val==9){
+                    int startAddr = manager.getValue(symtab["dx"]);
+                    while(true){
+                        if ((char)manager.getValue(startAddr) == '$')
+                            break;
+                        cout<<(char)manager.getValue(startAddr);
+                        startAddr++;
+                    }
+                    cout<<endl;
+                    pc++;
+                }
+            }
+
             return true;
         }
 
@@ -335,8 +352,9 @@ class Assembler{
                 else{
                     symtab[words[0]]=manager.Allocate(words[2].size());
                     int base = symtab[words[0]];
-                    for(int i=base;i<base+words[2].size();i++)
-                        manager.setValue(i,(unsigned short)(words[2][i-base]));
+                    for(int i=base;i<base+words[2].size();i++){
+                        manager.setValue(i,(int)(words[2][i-base]));
+                    }
                 }
             }
 
@@ -391,7 +409,7 @@ class Assembler{
                 instructions[p.second] = getIns(lines[p.first]); // Resolve forward references
 
             int cont = true;
-            pc = 0;
+            pc = symtab["main"];
             while (cont)
             {
                 cont = execute(instructions[pc]); // Run until end
